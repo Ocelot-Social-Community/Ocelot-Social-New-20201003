@@ -11,7 +11,7 @@
         <template #heroImage>
           <img
             v-if="formData.image"
-            :src="formData.image | proxyApiUrl"
+            :src="formData.image.url"
             :class="['image', formData.imageBlurred && '--blur-image']"
           />
           <image-uploader
