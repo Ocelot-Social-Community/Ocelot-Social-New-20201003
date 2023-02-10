@@ -80,8 +80,8 @@ services:
     image: ocelotsocialnetwork/maintenance:local-production
     build:
       # TODO: Separate from webapp, this must be independent
-      context: ./webapp
-      dockerfile: Dockerfile.maintenance
+      context: ./
+      dockerfile: ./maintenance/Dockerfile
     networks:
       - external-net
     ports:

@@ -52,28 +52,31 @@ CMD ["yarn", "run", "start"]
 ##################################################################################
 FROM base as code
 
-COPY package.json yarn.lock ./
+COPY ./webapp/package.json ./package.json
+COPY ./webapp/yarn.lock ./yarn.lock
 # yarn install
 RUN yarn install --production=false --frozen-lockfile --non-interactive
 
-COPY assets assets
+COPY ./webapp/assets ./assets
 # COPY components/_new/generic/ components/_new/generic
-COPY components/LocaleSwitch/ components/LocaleSwitch
-COPY components/Dropdown.vue components/Dropdown.vue
+COPY ./webapp/components/LocaleSwitch/ ./components/LocaleSwitch
+COPY ./webapp/components/Dropdown.vue ./components/Dropdown.vue
 # COPY components/Logo/ components/Logo
-COPY layouts/blank.vue layouts/blank.vue
-COPY locales locales
-COPY mixins mixins
-COPY plugins/i18n.js plugins/v-tooltip.js plugins/styleguide.js plugins/
-COPY static static
-COPY constants constants
-COPY nuxt.config.js nuxt.config.js
-COPY config/ config/
+COPY ./webapp/layouts/blank.vue ./layouts/blank.vue
+COPY ./webapp/locales ./locales
+COPY ./webapp/mixins ./mixins
+COPY ./webapp/plugins/i18n.js ./plugins/i18n.js
+COPY ./webapp/plugins/v-tooltip.js ./plugins/v-tooltip.js
+COPY ./webapp/plugins/styleguide.js plugins/styleguide.js
+COPY ./webapp/static ./static
+COPY ./webapp/constants ./constants
+COPY ./webapp/nuxt.config.js ./nuxt.config.js
+COPY ./webapp/config/ ./config/
 
 # this is needed in rebranding
-COPY maintenance/nginx maintenance/nginx
+# COPY ./maintenance/nginx ./nginx
 # this will also ovewrite the existing package.json
-COPY maintenance/source ./
+COPY ./maintenance/source ./
 
 ##################################################################################
 # BUILD ### TODO # TODO # TODO # TODO # TODO # TODO # TODO # TODO # TODO # TODO ##
@@ -90,4 +93,4 @@ FROM nginx:alpine as production
 
 COPY --from=build ./app/dist/ /usr/share/nginx/html/
 RUN rm /etc/nginx/conf.d/default.conf
-COPY maintenance/nginx/custom.conf /etc/nginx/conf.d/
+COPY ./maintenance/nginx/custom.conf /etc/nginx/conf.d/
